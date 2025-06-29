@@ -8,7 +8,7 @@ document.getElementById("uploadForm").addEventListener("submit", function(e) {
     }
 
     // データリスト（変換用）の取得
-    fetch("https://ryoup.github.io/siyuuuuuuu/data.csv?v=" + new Date().getTime())
+    fetch("https://ryoup.github.io/yuamato/data.csv?v=" + new Date().getTime())
         .then(response => response.text())
         .then(csvText => {
             const conversionTable = parseCSV(csvText);
@@ -38,7 +38,7 @@ function processImage(file, conversionTable) {
         const img = new Image();
         img.onload = function() {
             // 画像サイズチェック
-            if (img.width !== 1170 || img.height !== 2532) {
+            if (img.width !== 1080 || img.height !== 2400) {
                 document.getElementById("result").innerHTML = `<p style="color: red;">画像サイズが合っていません。</p>`;
                 return;
             }
@@ -53,7 +53,7 @@ function processImage(file, conversionTable) {
             const imageData = ctx.getImageData(0, 0, img.width, img.height);
             const data = imageData.data;
 
-            const xTargets = [235, 469, 704, 939]; // 検出するX座標
+            const xTargets = [219, 435, 651, 867]; // 検出するX座標
             let minYForX = {};
             let convertedValues = {};
 
@@ -63,7 +63,7 @@ function processImage(file, conversionTable) {
             });
 
             // 各X座標の最小Yを探索
-            for (let y = 1400; y < img.height; y++) {
+            for (let y = 1250; y < img.height; y++) {
                 for (let x of xTargets) {
                     if (x >= img.width) continue;
 
@@ -122,10 +122,10 @@ function processImage(file, conversionTable) {
 
             // 出力は "1P: 数値", "2P: 数値", "3P: 数値", "4P: 数値"
             let resultsHTML = `<h2>解析結果</h2>`;
-            resultsHTML += `<p>1P : ${convertedValues[235]}</p>`;
-            resultsHTML += `<p>2P : ${convertedValues[469]}</p>`;
-            resultsHTML += `<p>3P : ${convertedValues[704]}</p>`;
-            resultsHTML += `<p>4P : ${convertedValues[939]}</p>`;
+            resultsHTML += `<p>1P : ${convertedValues[219]}</p>`;
+            resultsHTML += `<p>2P : ${convertedValues[435]}</p>`;
+            resultsHTML += `<p>3P : ${convertedValues[651]}</p>`;
+            resultsHTML += `<p>4P : ${convertedValues[867]}</p>`;
 
             document.getElementById("result").innerHTML = resultsHTML;
         };
